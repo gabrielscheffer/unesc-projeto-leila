@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:suaapp="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/settings"
+        android:orderInCategory="100"
+        android:showAsAction="always|withText"
+        android:title="Configurações"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        suaapp:actionViewClass="android.support.v7.widget.SearchView"
+        suaapp:showAsAction="collapseActionView|ifRoom"/>
+    <item 
+        android:id="@+id/action_carrinho"
+        android:icon="@drawable/ic_action_carrinho"
+        android:showAsAction="always"
+        android:title="Carrinho" 
+        android:visible="true"
+        android:actionViewClass="android.support.v7.widget."/>
+
+</menu>
