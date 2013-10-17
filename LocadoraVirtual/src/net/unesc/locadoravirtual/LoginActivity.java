@@ -31,7 +31,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login_btn_login: {
-			Intent newIntent = new Intent(this, CoverFlowExample.class);
+			Intent newIntent = new Intent(this, MainActivity.class);
 			startActivity(newIntent);
 		}
 			break;

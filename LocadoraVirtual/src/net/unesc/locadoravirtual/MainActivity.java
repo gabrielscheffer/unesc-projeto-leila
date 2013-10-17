@@ -22,8 +22,10 @@ package net.unesc.locadoravirtual;
 
 import java.io.FileInputStream;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -38,21 +40,55 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.display.DisplayManager;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-public class CoverFlowExample extends Activity {
+public class MainActivity extends ActionBarActivity implements OnClickListener {
+
+	private MenuItem mBtCarrinho;
+	private Button btCarrinho;
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.action_bar_main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.action_carrinho:{
+			Intent intent = new Intent(this, CarrinhoActivity.class);
+			startActivity(intent);
+		}
+			
+			break;
+
+		default:
+			break;
+		}
+		
+		return true;
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		CoverFlow coverFlow = (CoverFlow) findViewById(R.id.main_coverflow);
-//		coverFlow = new CoverFlow(this);
+		// coverFlow = new CoverFlow(this);
 		coverFlow.setAdapter(new ImageAdapter(this));
 		ImageAdapter coverImageAdapter = new ImageAdapter(this);
 		coverImageAdapter.createReflectedImages();
@@ -81,17 +117,19 @@ public class CoverFlowExample extends Activity {
 
 			int index = 0;
 			for (int imageId : mImageIds) {
-				
+
 				Point outSize = new Point();
-				((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);				
+				((WindowManager) getSystemService(WINDOW_SERVICE))
+						.getDefaultDisplay().getSize(outSize);
 				Integer heightT = outSize.y;
 				Integer imageHeight = 200;
-				if(heightT != null){
-					imageHeight = (heightT/7)*4;
+				if (heightT != null) {
+					imageHeight = (heightT / 7) * 4;
 				}
-				
-				Bitmap originalImage = resizeImage(BitmapFactory.decodeResource(
-						getResources(), imageId), imageHeight, mContext);
+
+				Bitmap originalImage = resizeImage(
+						BitmapFactory.decodeResource(getResources(), imageId),
+						imageHeight, mContext);
 				int width = originalImage.getWidth();
 				int height = originalImage.getHeight();
 
@@ -139,7 +177,8 @@ public class CoverFlowExample extends Activity {
 
 				ImageView imageView = new ImageView(mContext);
 				imageView.setImageBitmap(bitmapWithReflection);
-				imageView.setLayoutParams(new CoverFlow.LayoutParams(outSize.x/3, height + 220));
+				imageView.setLayoutParams(new CoverFlow.LayoutParams(
+						outSize.x / 3, height + 220));
 				imageView.setScaleType(ScaleType.MATRIX);
 				mImages[index++] = imageView;
 
@@ -161,25 +200,27 @@ public class CoverFlowExample extends Activity {
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-//			// Use this code if you want to load from resources
-//			ImageView i = new ImageView(mContext);
-//			i.setImageResource(mImageIds[position]);
-//			
-//			Point outSize = new Point();
-//			((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);			
-//			Integer height= outSize.y;
-//			Integer imageHeight = 200;
-//			if(height != null){
-//				imageHeight = (height/7)*4;
-//			}
-//			i.setLayoutParams(new CoverFlow.LayoutParams(imageHeight,imageHeight));
-//			i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//
-//			// Make sure we set anti-aliasing otherwise we get jaggies
-//			i.setImageBitmap(resizeImage(((BitmapDrawable) i.getDrawable()).getBitmap(), imageHeight, mContext));
-//			return i;
+			// // Use this code if you want to load from resources
+			// ImageView i = new ImageView(mContext);
+			// i.setImageResource(mImageIds[position]);
+			//
+			// Point outSize = new Point();
+			// ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);
+			// Integer height= outSize.y;
+			// Integer imageHeight = 200;
+			// if(height != null){
+			// imageHeight = (height/7)*4;
+			// }
+			// i.setLayoutParams(new
+			// CoverFlow.LayoutParams(imageHeight,imageHeight));
+			// i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			//
+			// // Make sure we set anti-aliasing otherwise we get jaggies
+			// i.setImageBitmap(resizeImage(((BitmapDrawable)
+			// i.getDrawable()).getBitmap(), imageHeight, mContext));
+			// return i;
 
-			 return mImages[position];
+			return mImages[position];
 		}
 
 		/**
@@ -192,19 +233,35 @@ public class CoverFlowExample extends Activity {
 		}
 
 	}
-	
-	public static Bitmap resizeImage( Bitmap imagem, Integer maxHeight,
-            Context context) {
 
-    int width = imagem.getWidth();
-    int height = imagem.getHeight();
-    int newWidth= ((width * maxHeight) / height);
-    float scaleWidth = ((float) newWidth) / width;
-    float scaleHeight = ((float) maxHeight) / height;
-    Matrix matrix = new Matrix();
-    matrix.postScale(scaleWidth, scaleHeight);
-    Bitmap resizedBitmap = Bitmap.createBitmap(imagem, 0, 0, width, height,
-                    matrix, true);
-    return resizedBitmap;
-}
+	public static Bitmap resizeImage(Bitmap imagem, Integer maxHeight,
+			Context context) {
+
+		int width = imagem.getWidth();
+		int height = imagem.getHeight();
+		int newWidth = ((width * maxHeight) / height);
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) maxHeight) / height;
+		Matrix matrix = new Matrix();
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap resizedBitmap = Bitmap.createBitmap(imagem, 0, 0, width, height,
+				matrix, true);
+		return resizedBitmap;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.action_carrinho: {
+			Intent intent = new Intent(this, CarrinhoActivity.class);
+			startActivity(intent);
+		}
+
+			break;
+
+		default:
+			break;
+		}
+
+	}
 }
