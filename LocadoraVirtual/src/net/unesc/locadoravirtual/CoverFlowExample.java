@@ -30,14 +30,17 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -47,30 +50,18 @@ public class CoverFlowExample extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		CoverFlow coverFlow;
-		coverFlow = new CoverFlow(this);
-
+		setContentView(R.layout.activity_main);
+		CoverFlow coverFlow = (CoverFlow) findViewById(R.id.main_coverflow);
+//		coverFlow = new CoverFlow(this);
 		coverFlow.setAdapter(new ImageAdapter(this));
-
 		ImageAdapter coverImageAdapter = new ImageAdapter(this);
-
- coverImageAdapter.createReflectedImages();
-
+		coverImageAdapter.createReflectedImages();
 		coverFlow.setAdapter(coverImageAdapter);
-
-		coverFlow.setSpacing(-25);
-		coverFlow.setSelection(4, true);
-		coverFlow.setAnimationDuration(1000);
-
-		setContentView(coverFlow);
 	}
 
 	public class ImageAdapter extends BaseAdapter {
 		int mGalleryItemBackground;
 		private Context mContext;
-
-		private FileInputStream fis;
 
 		private Integer[] mImageIds = { R.drawable.alem_da_escuridao_startrek,
 				R.drawable.croods, R.drawable.depois_da_terra,
@@ -90,8 +81,17 @@ public class CoverFlowExample extends Activity {
 
 			int index = 0;
 			for (int imageId : mImageIds) {
-				Bitmap originalImage = BitmapFactory.decodeResource(
-						getResources(), imageId);
+				
+				Point outSize = new Point();
+				((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);				
+				Integer heightT = outSize.y;
+				Integer imageHeight = 200;
+				if(heightT != null){
+					imageHeight = (heightT/7)*4;
+				}
+				
+				Bitmap originalImage = resizeImage(BitmapFactory.decodeResource(
+						getResources(), imageId), imageHeight, mContext);
 				int width = originalImage.getWidth();
 				int height = originalImage.getHeight();
 
@@ -102,7 +102,7 @@ public class CoverFlowExample extends Activity {
 				// Create a Bitmap with the flip matrix applied to it.
 				// We only want the bottom half of the image
 				Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0,
-						height / 2, width, height / 2, matrix, false);
+						height / 2, width, height / 2, matrix, true);
 
 				// Create a new bitmap with same width but taller to fit
 				// reflection
@@ -139,7 +139,7 @@ public class CoverFlowExample extends Activity {
 
 				ImageView imageView = new ImageView(mContext);
 				imageView.setImageBitmap(bitmapWithReflection);
-				imageView.setLayoutParams(new CoverFlow.LayoutParams(120, 180));
+				imageView.setLayoutParams(new CoverFlow.LayoutParams(outSize.x/3, height + 220));
 				imageView.setScaleType(ScaleType.MATRIX);
 				mImages[index++] = imageView;
 
@@ -161,18 +161,25 @@ public class CoverFlowExample extends Activity {
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-			// Use this code if you want to load from resources
-			ImageView i = new ImageView(mContext);
-			i.setImageResource(mImageIds[position]);
-			i.setLayoutParams(new CoverFlow.LayoutParams(390, 390));
-			i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//			// Use this code if you want to load from resources
+//			ImageView i = new ImageView(mContext);
+//			i.setImageResource(mImageIds[position]);
+//			
+//			Point outSize = new Point();
+//			((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);			
+//			Integer height= outSize.y;
+//			Integer imageHeight = 200;
+//			if(height != null){
+//				imageHeight = (height/7)*4;
+//			}
+//			i.setLayoutParams(new CoverFlow.LayoutParams(imageHeight,imageHeight));
+//			i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//
+//			// Make sure we set anti-aliasing otherwise we get jaggies
+//			i.setImageBitmap(resizeImage(((BitmapDrawable) i.getDrawable()).getBitmap(), imageHeight, mContext));
+//			return i;
 
-			// Make sure we set anti-aliasing otherwise we get jaggies
-			BitmapDrawable drawable = (BitmapDrawable) i.getDrawable();
-			drawable.setAntiAlias(true);
-			return i;
-
-			// return mImages[position];
+			 return mImages[position];
 		}
 
 		/**
@@ -185,4 +192,19 @@ public class CoverFlowExample extends Activity {
 		}
 
 	}
+	
+	public static Bitmap resizeImage( Bitmap imagem, Integer maxHeight,
+            Context context) {
+
+    int width = imagem.getWidth();
+    int height = imagem.getHeight();
+    int newWidth= ((width * maxHeight) / height);
+    float scaleWidth = ((float) newWidth) / width;
+    float scaleHeight = ((float) maxHeight) / height;
+    Matrix matrix = new Matrix();
+    matrix.postScale(scaleWidth, scaleHeight);
+    Bitmap resizedBitmap = Bitmap.createBitmap(imagem, 0, 0, width, height,
+                    matrix, true);
+    return resizedBitmap;
+}
 }
