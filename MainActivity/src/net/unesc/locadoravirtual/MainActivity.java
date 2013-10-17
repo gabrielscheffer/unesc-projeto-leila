@@ -20,65 +20,53 @@
  */
 package net.unesc.locadoravirtual;
 
-import java.io.FileInputStream;
-
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
-import android.graphics.drawable.BitmapDrawable;
-import android.hardware.display.DisplayManager;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener {
-
-	private MenuItem mBtCarrinho;
-	private Button btCarrinho;
+public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
+
 		switch (item.getItemId()) {
-		case R.id.action_carrinho:{
+		case R.id.action_carrinho: {
 			Intent intent = new Intent(this, CarrinhoActivity.class);
 			startActivity(intent);
 		}
-			
+
 			break;
 
 		default:
 			break;
 		}
-		
+
 		return true;
 	}
 
@@ -178,7 +166,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				ImageView imageView = new ImageView(mContext);
 				imageView.setImageBitmap(bitmapWithReflection);
 				imageView.setLayoutParams(new CoverFlow.LayoutParams(
-						outSize.x / 3, height + 220));
+						outSize.x / 3 > width ? outSize.x / 3 : width, height
+								+ (height / 2)));
 				imageView.setScaleType(ScaleType.MATRIX);
 				mImages[index++] = imageView;
 
@@ -247,21 +236,5 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		Bitmap resizedBitmap = Bitmap.createBitmap(imagem, 0, 0, width, height,
 				matrix, true);
 		return resizedBitmap;
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.action_carrinho: {
-			Intent intent = new Intent(this, CarrinhoActivity.class);
-			startActivity(intent);
-		}
-
-			break;
-
-		default:
-			break;
-		}
-
 	}
 }
