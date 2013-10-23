@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:suaapp="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        suaapp:actionViewClass="android.support.v7.widget.SearchView"
+        suaapp:showAsAction="always"
+        android:orderInCategory="1"/>
+    <item 
+        android:id="@+id/action_carrinho"
+        android:icon="@drawable/ic_action_carrinho"
+        suaapp:showAsAction="always"        
+        android:title="Carrinho" 
+        android:orderInCategory="2"/>
+        <item 
+        android:id="@+id/action_favorites"
+        android:icon="@drawable/ic_action_favorites"
+        suaapp:showAsAction="ifRoom"        
+        android:title="Favoritos" 
+        android:orderInCategory="3"/>
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Configurações"/>
+
+</menu>

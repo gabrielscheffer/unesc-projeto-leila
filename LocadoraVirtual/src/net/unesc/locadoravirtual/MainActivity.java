@@ -49,8 +49,9 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_main, menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
 				ImageView imageView = new ImageView(mContext);
 				imageView.setImageBitmap(bitmapWithReflection);
 				imageView.setLayoutParams(new CoverFlow.LayoutParams(
-						outSize.x / 3 > width ? outSize.x / 3 : width, height
+						outSize.x / 4 > width ? outSize.x / 4 : width, height
 								+ (height / 2)));
 				imageView.setScaleType(ScaleType.MATRIX);
 				mImages[index++] = imageView;
