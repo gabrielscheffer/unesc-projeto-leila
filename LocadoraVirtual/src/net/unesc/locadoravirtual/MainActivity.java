@@ -1,23 +1,3 @@
-/*
- * Copyright (C) 2010 Neil Davies
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * This code is base on the Android Gallery widget and was Created 
- * by Neil Davies neild001 'at' gmail dot com to be a Coverflow widget
- * 
- * @author Neil Davies
- */
 package net.unesc.locadoravirtual;
 
 import android.content.Context;
@@ -35,23 +15,29 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
+
+	int gifilmeselecionado;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -77,11 +63,28 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		CoverFlow coverFlow = (CoverFlow) findViewById(R.id.main_coverflow);
-		// coverFlow = new CoverFlow(this);
-		coverFlow.setAdapter(new ImageAdapter(this));
 		ImageAdapter coverImageAdapter = new ImageAdapter(this);
 		coverImageAdapter.createReflectedImages();
 		coverFlow.setAdapter(coverImageAdapter);
+		coverFlow.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				if (position == gifilmeselecionado){
+					Toast.makeText(MainActivity.this, "Abre Activity do Item >> " + position, Toast.LENGTH_SHORT).show();
+				}else
+				{
+					gifilmeselecionado = position;
+				}
+				
+			}
+		});
+		gifilmeselecionado=2;
+		coverFlow.setSelection(gifilmeselecionado, true);
+		coverFlow.setSelected(false);
+		coverFlow.setAnimationDuration(1000);
+
 	}
 
 	public class ImageAdapter extends BaseAdapter {
@@ -97,7 +100,7 @@ public class MainActivity extends ActionBarActivity {
 
 		public ImageAdapter(Context c) {
 			mContext = c;
-			mImages = new ImageView[mImageIds.length];
+			mImages = new ImageView[getCount()];
 		}
 
 		public boolean createReflectedImages() {
@@ -181,34 +184,17 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		public Object getItem(int position) {
+			Log.d("GABRIEL", "getItem Clicado na posição >>" + position);
 			return position;
 		}
 
 		public long getItemId(int position) {
+			Log.d("GABRIEL", "getItemID Clicado na posição >>" + position);
 			return position;
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-
-			// // Use this code if you want to load from resources
-			// ImageView i = new ImageView(mContext);
-			// i.setImageResource(mImageIds[position]);
-			//
-			// Point outSize = new Point();
-			// ((WindowManager)getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(outSize);
-			// Integer height= outSize.y;
-			// Integer imageHeight = 200;
-			// if(height != null){
-			// imageHeight = (height/7)*4;
-			// }
-			// i.setLayoutParams(new
-			// CoverFlow.LayoutParams(imageHeight,imageHeight));
-			// i.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			//
-			// // Make sure we set anti-aliasing otherwise we get jaggies
-			// i.setImageBitmap(resizeImage(((BitmapDrawable)
-			// i.getDrawable()).getBitmap(), imageHeight, mContext));
-			// return i;
+			Log.d("GABRIEL", "getView Clicado na posição >>" + position);
 
 			return mImages[position];
 		}
