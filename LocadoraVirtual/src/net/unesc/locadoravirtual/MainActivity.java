@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
 		gifilmeselecionado=2;
 		coverFlow.setSelection(gifilmeselecionado, true);
 		coverFlow.setSelected(false);
-		coverFlow.setAnimationDuration(1000);
+		//coverFlow.setAnimationDuration(1000);
 
 	}
 
