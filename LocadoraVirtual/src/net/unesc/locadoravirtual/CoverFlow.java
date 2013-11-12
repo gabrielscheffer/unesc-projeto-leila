@@ -1,5 +1,3 @@
-package net.unesc.locadoravirtual;
-
 /*
  * Copyright (C) 2010 Neil Davies
  *
@@ -20,12 +18,12 @@ package net.unesc.locadoravirtual;
  * 
  * @author Neil Davies
  */
+package net.unesc.locadoravirtual;
 
 import android.content.Context;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Transformation;
 import android.widget.Gallery;
@@ -52,8 +50,6 @@ public class CoverFlow extends Gallery {
 	 * The Centre of the Coverflow
 	 */
 	private int mCoveflowCenter;
-
-	private float mZAxis = 100.0f;
 
 	public CoverFlow(Context context) {
 		super(context);
@@ -108,14 +104,6 @@ public class CoverFlow extends Gallery {
 		mMaxZoom = maxZoom;
 	}
 
-	public float getmZAxis() {
-		return mZAxis;
-	}
-
-	public void setmZAxis(float mZAxis) {
-		this.mZAxis = mZAxis;
-	}
-
 	/**
 	 * Get the Centre of the Coverflow
 	 * 
@@ -142,6 +130,7 @@ public class CoverFlow extends Gallery {
 	 */
 	protected boolean getChildStaticTransformation(View child, Transformation t) {
 
+		child.invalidate();
 		final int childCenter = getCenterOfView(child);
 		final int childWidth = child.getWidth();
 		int rotationAngle = 0;
@@ -202,7 +191,7 @@ public class CoverFlow extends Gallery {
 		final int imageWidth = child.getLayoutParams().width;
 		final int rotation = Math.abs(rotationAngle);
 
-		mCamera.translate(0.0f, 0.0f, mZAxis);
+		mCamera.translate(0.0f, 0.0f, 100.0f);
 
 		// As the angle of the view gets less, zoom in
 		if (rotation < mMaxRotationAngle) {
@@ -215,26 +204,5 @@ public class CoverFlow extends Gallery {
 		imageMatrix.preTranslate(-(imageWidth / 2), -(imageHeight / 2));
 		imageMatrix.postTranslate((imageWidth / 2), (imageHeight / 2));
 		mCamera.restore();
-	}
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		getParent().requestDisallowInterceptTouchEvent(true);
-		return super.onDown(e);
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		return super.onFling(e1, e2, velocityX, velocityY);
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-
-		getParent().requestDisallowInterceptTouchEvent(true);
-
-		return super.onScroll(e1, e2, distanceX, distanceY);
 	}
 }
