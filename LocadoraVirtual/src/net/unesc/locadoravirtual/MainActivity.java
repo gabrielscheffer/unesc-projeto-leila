@@ -1,5 +1,6 @@
 package net.unesc.locadoravirtual;
 
+import net.unesc.locadoravirtual.SimpleDialog.FragmentDialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,15 +24,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements
+		OnItemClickListener, OnItemLongClickListener, FragmentDialogInterface {
 
-	int gifilmeselecionado;
+	Integer gifilmeselecionado;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,7 +59,6 @@ public class MainActivity extends ActionBarActivity {
 		return true;
 	}
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,25 +67,9 @@ public class MainActivity extends ActionBarActivity {
 		ImageAdapter coverImageAdapter = new ImageAdapter(this);
 		coverImageAdapter.createReflectedImages();
 		coverFlow.setAdapter(coverImageAdapter);
-		coverFlow.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
-				if (position == gifilmeselecionado){
-					Toast.makeText(MainActivity.this, "Abre Activity do Item >> " + position, Toast.LENGTH_SHORT).show();
-				}else
-				{
-					gifilmeselecionado = position;
-				}
-				
-			}
-		});
-		gifilmeselecionado=2;
-		coverFlow.setSelection(gifilmeselecionado, true);
-		coverFlow.setSelected(false);
-		//coverFlow.setAnimationDuration(1000);
-
+		coverFlow.setOnItemClickListener(this);
+		coverFlow.setOnItemLongClickListener(this);
+		coverFlow.setSelection(2, true);
 	}
 
 	public class ImageAdapter extends BaseAdapter {
@@ -103,6 +88,7 @@ public class MainActivity extends ActionBarActivity {
 			mImages = new ImageView[getCount()];
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean createReflectedImages() {
 			// The gap we want between the reflection and the original image
 			final int reflectionGap = 4;
@@ -116,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 				Integer heightT = outSize.y;
 				Integer imageHeight = 200;
 				if (heightT != null) {
-					imageHeight = (heightT / 7) * 4;
+					imageHeight = (heightT / 8) * 4;
 				}
 
 				Bitmap originalImage = resizeImage(
@@ -171,10 +157,9 @@ public class MainActivity extends ActionBarActivity {
 				imageView.setImageBitmap(bitmapWithReflection);
 				imageView.setLayoutParams(new CoverFlow.LayoutParams(
 						outSize.x / 4 > width ? outSize.x / 4 : width, height
-								+ (height / 2)));
+								+ height / 2));
 				imageView.setScaleType(ScaleType.MATRIX);
 				mImages[index++] = imageView;
-
 			}
 			return true;
 		}
@@ -224,4 +209,48 @@ public class MainActivity extends ActionBarActivity {
 				matrix, true);
 		return resizedBitmap;
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
+
+		if (gifilmeselecionado != null && position == gifilmeselecionado) {
+			startActivity(new Intent(getApplicationContext(),
+					SinopseActivity.class));
+			gifilmeselecionado = null;
+		} else {
+			gifilmeselecionado = position;
+		}
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> adapter, View arg1,
+			int position, long id) {
+		// Toast.makeText(MainActivity.this, "Abre Activity do Item >> " +
+		// position, Toast.LENGTH_SHORT).show();
+		SimpleDialog dialog = SimpleDialog.newDialog(0, // Id do dialog
+				"Filme", // título
+				"Filme selecionado: " + position, // mensagem
+				new int[] { // texto dos botões
+				R.string.bt_carrinho, R.string.bt_favoritos });
+		dialog.openDialog(getSupportFragmentManager());
+		return false;
+	}
+
+	@Override
+	public void onClick(int id, int which) {
+		Log.d("GABRIEL", "id :"+id);
+		Log.d("GABRIEL", "which: "+which);
+		switch (which) {
+		case -1:
+			Log.d("GABRIEL", "Botão carrinho");
+			break;
+		case -2:
+			Log.d("GABRIEL", "Botão favoritos");
+			break;
+		default:
+			break;
+		}
+	}
+
 }

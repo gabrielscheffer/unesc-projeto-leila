@@ -185,9 +185,7 @@ public class CoverFlow extends Gallery {
 			int rotationAngle) {
 		mCamera.save();
 		final Matrix imageMatrix = t.getMatrix();
-		;
 		final int imageHeight = child.getLayoutParams().height;
-		;
 		final int imageWidth = child.getLayoutParams().width;
 		final int rotation = Math.abs(rotationAngle);
 

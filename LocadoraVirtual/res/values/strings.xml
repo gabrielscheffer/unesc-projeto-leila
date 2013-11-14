@@ -4,5 +4,7 @@
     <string name="app_name">LocadoraVirtual</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="bt_carrinho">Carrinho</string>
+    <string name="bt_favoritos">Favoritos</string>
 
 </resources>
