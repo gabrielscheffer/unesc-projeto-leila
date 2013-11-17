@@ -31,6 +31,9 @@ import android.widget.ImageView;
 
 public class CoverFlow extends Gallery {
 
+	private static final String COVER_FLOW_TAG = "coverFlowTag";
+	private OnDragListener dragListener;
+
 	/**
 	 * Graphics Camera used for transforming the matrix of ImageViews
 	 */
@@ -202,5 +205,15 @@ public class CoverFlow extends Gallery {
 		imageMatrix.preTranslate(-(imageWidth / 2), -(imageHeight / 2));
 		imageMatrix.postTranslate((imageWidth / 2), (imageHeight / 2));
 		mCamera.restore();
+		child.setTag(COVER_FLOW_TAG);
+		child.setOnDragListener(dragListener);
+	}
+
+	public OnDragListener getDragListener() {
+		return dragListener;
+	}
+
+	public void setDragListener(OnDragListener dragListener) {
+		this.dragListener = dragListener;
 	}
 }
