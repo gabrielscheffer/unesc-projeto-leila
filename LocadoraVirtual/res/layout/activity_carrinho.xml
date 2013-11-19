@@ -20,7 +20,7 @@
         android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/carrinho_tv_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lista de desejos"

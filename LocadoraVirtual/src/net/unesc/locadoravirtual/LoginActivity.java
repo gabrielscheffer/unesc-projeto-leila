@@ -1,14 +1,15 @@
 package net.unesc.locadoravirtual;
 
-import android.os.Bundle;
-import android.app.Activity;
+import net.unesc.locadoravirtual.utils.MyActionBarActivity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends MyActionBarActivity implements
+		OnClickListener {
 
 	private static Button btnLogin;
 

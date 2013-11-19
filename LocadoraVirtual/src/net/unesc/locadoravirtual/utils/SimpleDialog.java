@@ -1,4 +1,4 @@
-package net.unesc.locadoravirtual;
+package net.unesc.locadoravirtual.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

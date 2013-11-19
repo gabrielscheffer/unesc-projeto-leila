@@ -1,14 +1,14 @@
 package net.unesc.locadoravirtual;
 
+import net.unesc.locadoravirtual.utils.MyActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SinopseActivity extends ActionBarActivity {
+public class SinopseActivity extends MyActionBarActivity {
 
-	//ACTIONBAR
+	// ACTIONBAR
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.action_bar_main, menu);
@@ -32,7 +32,8 @@ public class SinopseActivity extends ActionBarActivity {
 
 		return true;
 	}
-	//CLASSE
+
+	// CLASSE
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

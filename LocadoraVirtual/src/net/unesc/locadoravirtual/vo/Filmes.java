@@ -5,17 +5,19 @@ public class Filmes {
 	private String nome;
 	private int image;
 	private Integer ano;
+	private Double preco;
 
 	public Filmes() {
 
 	}
 
-	public Filmes(Integer id, String nome, int image, Integer ano) {
+	public Filmes(Integer id, String nome, int image, Integer ano, Double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.image = image;
 		this.ano = ano;
+		this.preco = preco;
 	}
 
 	public Integer getId() {
@@ -48,6 +50,14 @@ public class Filmes {
 
 	public void setAno(Integer ano) {
 		this.ano = ano;
+	}
+
+	public double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(double preco) {
+		this.preco = preco;
 	}
 
 }

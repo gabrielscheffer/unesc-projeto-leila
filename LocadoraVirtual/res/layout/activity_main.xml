@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <net.unesc.locadoravirtual.CoverFlow
+    <net.unesc.locadoravirtual.utils.CoverFlow
         android:id="@+id/main_coverflow"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -17,25 +17,25 @@
         android:animationDuration="1000" />
 
     <ImageView
-        android:id="@+id/drop_carrinho"
+        android:id="@+id/drop_favoritos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:maxHeight="36dp"
         android:maxWidth="36dp"
-        android:src="@drawable/ic_action_cart"
+        android:src="@drawable/ic_lista_drop"
         android:visibility="invisible" />
 
     <ImageView
-        android:id="@+id/drop_favoritos"
+        android:id="@+id/drop_carrinho"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:maxHeight="36dp"
         android:maxWidth="36dp"
-        android:src="@drawable/ic_action_favorites"
+        android:src="@drawable/ic_carrinho_drop"
         android:visibility="invisible" />
 
 </RelativeLayout>

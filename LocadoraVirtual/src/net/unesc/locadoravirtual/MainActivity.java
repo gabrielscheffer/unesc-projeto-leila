@@ -1,10 +1,13 @@
 package net.unesc.locadoravirtual;
 
+import net.unesc.locadoravirtual.utils.CoverFlow;
+import net.unesc.locadoravirtual.utils.ImageAdapter;
+import net.unesc.locadoravirtual.utils.MyActionBarActivity;
+import net.unesc.locadoravirtual.vo.DataBase;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -18,8 +21,9 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends MyActionBarActivity implements
 		OnItemClickListener, OnItemLongClickListener, OnDragListener {
 
 	Integer gifilmeselecionado;
@@ -65,11 +69,6 @@ public class MainActivity extends ActionBarActivity implements
 		dropFavoritos.setOnDragListener(this);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T getComponente(int id) {
-		return (T) findViewById(id);
-	}
-
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int position,
 			long arg3) {
@@ -85,7 +84,8 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	public boolean onItemLongClick(AdapterView<?> adapter, View view,
 			int position, long id) {
-		ClipData.Item item = new ClipData.Item((CharSequence) view.getTag());
+		ClipData.Item item = new ClipData.Item((CharSequence) view.getTag()
+				.toString());
 		String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
 		ClipData dragData = new ClipData(view.getTag().toString(), mimeTypes,
 				item);
@@ -129,9 +129,13 @@ public class MainActivity extends ActionBarActivity implements
 		case DragEvent.ACTION_DROP:
 			if (R.id.drop_carrinho == v.getId()) {
 				Log.d("GABRIEL", "Drag ACTION_DROP carrinho");
-
+				Toast.makeText(getBaseContext(), "Adicionado ao carrinho.",
+						Toast.LENGTH_LONG).show();
 			} else if (R.id.drop_favoritos == v.getId()) {
 				Log.d("GABRIEL", "Drag ACTION_DROP favoritos");
+				Toast.makeText(getBaseContext(),
+						"Adicionado a lista de desejos.", Toast.LENGTH_LONG)
+						.show();
 			}
 			dropCarrinho.setVisibility(View.INVISIBLE);
 			dropFavoritos.setVisibility(View.INVISIBLE);

@@ -18,7 +18,7 @@
  * 
  * @author Neil Davies
  */
-package net.unesc.locadoravirtual;
+package net.unesc.locadoravirtual.utils;
 
 import android.content.Context;
 import android.graphics.Camera;
@@ -205,7 +205,7 @@ public class CoverFlow extends Gallery {
 		imageMatrix.preTranslate(-(imageWidth / 2), -(imageHeight / 2));
 		imageMatrix.postTranslate((imageWidth / 2), (imageHeight / 2));
 		mCamera.restore();
-		child.setTag(COVER_FLOW_TAG);
+		// child.setTag(COVER_FLOW_TAG);
 		child.setOnDragListener(dragListener);
 	}
 

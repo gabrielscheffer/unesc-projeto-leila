@@ -1,7 +1,8 @@
-package net.unesc.locadoravirtual;
+package net.unesc.locadoravirtual.utils;
 
 import java.util.List;
 
+import net.unesc.locadoravirtual.vo.DataBase;
 import net.unesc.locadoravirtual.vo.Filmes;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -115,18 +116,17 @@ public class ImageAdapter extends BaseAdapter {
 	}
 
 	public Object getItem(int position) {
-		// Log.d("GABRIEL", "getItem Clicado na posição >>" + position);
-		return position;
+		return mImageIds.get(position);
 	}
 
 	public long getItemId(int position) {
-		// Log.d("GABRIEL", "getItemID Clicado na posição >>" + position);
 		return position;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Log.d("GABRIEL", "getView Clicado na posição >>" + position);
-
+		if (mImages[position] != null) {
+			mImages[position].setTag(position);
+		}
 		return mImages[position];
 	}
 
@@ -141,7 +141,6 @@ public class ImageAdapter extends BaseAdapter {
 
 	public static Bitmap resizeImage(Bitmap imagem, Integer maxHeight,
 			Context context) {
-
 		int width = imagem.getWidth();
 		int height = imagem.getHeight();
 		int newWidth = ((width * maxHeight) / height);
