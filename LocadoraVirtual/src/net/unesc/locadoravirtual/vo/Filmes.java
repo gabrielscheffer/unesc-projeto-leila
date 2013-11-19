@@ -2,7 +2,7 @@ package net.unesc.locadoravirtual.vo;
 
 public class Filmes {
 	private Integer id;
-	private String nome;
+	private String nome, sinopse;
 	private int image;
 	private Integer ano;
 	private Double preco;
@@ -10,11 +10,13 @@ public class Filmes {
 	public Filmes() {
 
 	}
-
-	public Filmes(Integer id, String nome, int image, Integer ano, Double preco) {
+	
+	
+	public Filmes(Integer id, String nome, String sinopse, int image, Integer ano, Double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.sinopse = sinopse;
 		this.image = image;
 		this.ano = ano;
 		this.preco = preco;
@@ -59,5 +61,19 @@ public class Filmes {
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
+
+	public String getSinopse() {
+		return sinopse;
+	}
+
+	public void setSinopse(String sinopse) {
+		this.sinopse = sinopse;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+	
+	
 
 }

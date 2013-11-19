@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SinopseActivity extends MyActionBarActivity {
+public class SinopseActivity extends MyActionBarActivity{
 
 	// ACTIONBAR
 	@Override

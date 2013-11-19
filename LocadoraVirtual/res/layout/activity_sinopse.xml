@@ -2,49 +2,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="2dp" >
+
+    <TextView
+        android:id="@+id/tv_titulo"
+        style="@style/Widget.AppCompat.Base.ListView.Menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="TITULO FILME (AAAA)" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="45"
             android:gravity="center" >
 
             <ImageView
-                android:id="@+id/drop_carrinho"
-                android:layout_width="76dp"
-                android:layout_height="104dp"
-                android:layout_gravity="center"
+                android:id="@+id/iv_filme"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:src="@drawable/se_beber_nao_case_3" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="55" >
+            android:layout_height="fill_parent"
+            android:weightSum="100"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lbl_sinopse"
+                style="@style/TextAppearance.AppCompat.Base.SearchResult.Title"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:gravity="top|center"
+                android:layout_weight="15"
+                android:paddingBottom="10dp"
+                android:text="SINOPSE" />
+
+            <TextView
+                android:id="@+id/tv_sinopse"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="67"
+                android:text="Texto de sinopse do Filme" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical" >
+                android:layout_weight="18"
+                android:layout_height="0dp"
+                android:weightSum="3" >
 
-                <TextView 
-                    android:text="SINOPSE"
-                    android:layout_width="fill_parent"
+                <Button
+                    android:id="@+id/btn1"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_gravity="center"
-                    android:gravity="top|center"
-                    style="@style/TextAppearance.AppCompat.Base.SearchResult.Title" />
+                    android:layout_weight="1"
+                    android:text="Trailer" />
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Imagens" />
+
+                <TextView
+                    android:id="@+id/tv_preco"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Preço R$ 0,00" />
+
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
