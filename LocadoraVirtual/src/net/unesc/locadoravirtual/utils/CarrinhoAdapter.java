@@ -22,7 +22,7 @@ public class CarrinhoAdapter extends BaseAdapter {
 	public CarrinhoAdapter(Context context, List<Filmes> filmes) {
 		this.context = context;
 		this.setFilmes(filmes);
-		format = new DecimalFormat("R$ #,##0,00");
+		format = new DecimalFormat("R$ #,##0.00");
 	}
 
 	@Override

@@ -73,8 +73,10 @@ public class MainActivity extends MyActionBarActivity implements
 	public void onItemClick(AdapterView<?> arg0, View view, int position,
 			long arg3) {
 		if (gifilmeselecionado != null && position == gifilmeselecionado) {
-			startActivity(new Intent(getApplicationContext(),
-					SinopseActivity.class));
+			Intent intent = new Intent(getApplicationContext(),
+					SinopseActivity.class);
+			intent.putExtra("filme", DataBase.getFilmes().get(position));
+			startActivity(intent);
 			gifilmeselecionado = null;
 		} else {
 			gifilmeselecionado = position;

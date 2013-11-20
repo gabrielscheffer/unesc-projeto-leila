@@ -1,6 +1,8 @@
 package net.unesc.locadoravirtual.vo;
 
-public class Filmes {
+import java.io.Serializable;
+
+public class Filmes implements Serializable{
 	private Integer id;
 	private String nome, sinopse;
 	private int image;
