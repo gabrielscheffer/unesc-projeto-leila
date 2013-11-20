@@ -20,13 +20,19 @@ public class CarrinhoAdapter extends BaseAdapter {
 	private List<Filmes> filmes;
 	private static DecimalFormat format;
 	private OnTouchListener onTouchListener;
+	private String TAG_LIST;
 
 	public CarrinhoAdapter(Context context, List<Filmes> filmes,
-			OnTouchListener onTouchListener) {
+			OnTouchListener onTouchListener, String TAG_LIST) {
 		this.context = context;
-		this.setFilmes(filmes);
+		this.filmes = filmes;
 		this.onTouchListener = onTouchListener;
+		this.TAG_LIST = TAG_LIST;
 		format = new DecimalFormat("R$ #,##0.00");
+	}
+
+	public List<Filmes> getList() {
+		return this.filmes;
 	}
 
 	@Override
@@ -52,46 +58,48 @@ public class CarrinhoAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
 		Filmes item = (Filmes) getItem(position);
-		if (convertView == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-			convertView = inflater.inflate(R.layout.carrinho_adapter, parent,
-					false);
-			convertView.setTag(item);
-			convertView.setOnTouchListener(onTouchListener);
-			holder = new ViewHolder();
-			holder.titulo = (TextView) convertView
-					.findViewById(R.id.carrinho_tv_nome);
-			holder.preco = (TextView) convertView
-					.findViewById(R.id.carrinho_tv_preco);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		holder.titulo.setText(item.getNome());
-		holder.preco.setText(format.format(item.getPreco()));
+		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+		convertView = inflater
+				.inflate(R.layout.carrinho_adapter, parent, false);
+		convertView.setTag(item);
+		convertView.setOnTouchListener(onTouchListener);
+		TextView titulo = (TextView) convertView
+				.findViewById(R.id.carrinho_tv_nome);
+		TextView preco = (TextView) convertView
+				.findViewById(R.id.carrinho_tv_preco);
+		CarrinhoTag carrinhoTag = new CarrinhoTag(item, TAG_LIST);
+		convertView.setTag(carrinhoTag);
+		titulo.setText(item.getNome());
+		preco.setText(format.format(item.getPreco()));
 		return convertView;
 	}
 
-	public Context getContext() {
-		return context;
-	}
+	public static class CarrinhoTag {
+		private Filmes filmes;
+		private String lsit;
 
-	public void setContext(Context context) {
-		this.context = context;
-	}
+		public CarrinhoTag(Filmes filmes, String lsit) {
+			super();
+			this.setFilmes(filmes);
+			this.setLsit(lsit);
+		}
 
-	public List<Filmes> getFilmes() {
-		return filmes;
-	}
+		public String getLsit() {
+			return lsit;
+		}
 
-	public void setFilmes(List<Filmes> filmes) {
-		this.filmes = filmes;
-	}
+		public void setLsit(String lsit) {
+			this.lsit = lsit;
+		}
 
-	private static class ViewHolder {
-		TextView titulo;
-		TextView preco;
+		public Filmes getFilmes() {
+			return filmes;
+		}
+
+		public void setFilmes(Filmes filmes) {
+			this.filmes = filmes;
+		}
+
 	}
 }

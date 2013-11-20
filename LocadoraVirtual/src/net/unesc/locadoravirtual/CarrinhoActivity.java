@@ -1,6 +1,7 @@
 package net.unesc.locadoravirtual;
 
 import net.unesc.locadoravirtual.utils.CarrinhoAdapter;
+import net.unesc.locadoravirtual.utils.CarrinhoAdapter.CarrinhoTag;
 import net.unesc.locadoravirtual.utils.MyActionBarActivity;
 import net.unesc.locadoravirtual.vo.DataBase;
 import android.os.Bundle;
@@ -12,19 +13,25 @@ import android.widget.ListView;
 public class CarrinhoActivity extends MyActionBarActivity implements
 		OnTouchListener {
 
+	private static final String TAG_CARRINHO_LIST = "carrinhoList";
+	private static final String TAG_LISTA_DESEJOS = "listaDesejos";
 	private int _xDelta;
 	private int initialX;
+	private CarrinhoAdapter listaDesejosAdapter;
+	private CarrinhoAdapter carrinhoAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_carrinho);
 		ListView listaDesejos = getComponente(R.id.carrinho_lv_lista);
-		listaDesejos.setAdapter(new CarrinhoAdapter(this, DataBase
-				.getFavoritos(), this));
-		ListView carrinho = getComponente(R.id.carrinho_lv_carrinho);
-		carrinho.setAdapter(new CarrinhoAdapter(this, DataBase.getCarrinho(),
-				this));
+		listaDesejosAdapter = new CarrinhoAdapter(this,
+				DataBase.getFavoritos(), this, TAG_LISTA_DESEJOS);
+		listaDesejos.setAdapter(listaDesejosAdapter);
+		ListView carrinhoList = getComponente(R.id.carrinho_lv_carrinho);
+		carrinhoAdapter = new CarrinhoAdapter(this, DataBase.getCarrinho(),
+				this, TAG_CARRINHO_LIST);
+		carrinhoList.setAdapter(carrinhoAdapter);
 
 	}
 
@@ -41,12 +48,36 @@ public class CarrinhoActivity extends MyActionBarActivity implements
 			break;
 		case MotionEvent.ACTION_MOVE:
 			view.setLeft(X - _xDelta);
-			if (initialX - X < 200) {
-
+			if (initialX + (X - _xDelta) < -300) {
+				// esquerda
+				CarrinhoTag carrinhoTag = (CarrinhoTag) view.getTag();
+				if (TAG_LISTA_DESEJOS.equals(carrinhoTag.getLsit())) {
+					listaDesejosAdapter.getList().remove(
+							carrinhoTag.getFilmes());
+					listaDesejosAdapter.notifyDataSetChanged();
+				} else if (TAG_CARRINHO_LIST.equals(carrinhoTag.getLsit())) {
+					carrinhoAdapter.getList().remove(carrinhoTag.getFilmes());
+					carrinhoAdapter.notifyDataSetChanged();
+					listaDesejosAdapter.getList().add(carrinhoTag.getFilmes());
+					listaDesejosAdapter.notifyDataSetChanged();
+				}
+			}
+			if (initialX + (X - _xDelta) > 300) {
+				// Direita
+				CarrinhoTag carrinhoTag = (CarrinhoTag) view.getTag();
+				if (TAG_LISTA_DESEJOS.equals(carrinhoTag.getLsit())) {
+					carrinhoAdapter.getList().add(carrinhoTag.getFilmes());
+					carrinhoAdapter.notifyDataSetChanged();
+					listaDesejosAdapter.getList().remove(
+							carrinhoTag.getFilmes());
+					listaDesejosAdapter.notifyDataSetChanged();
+				} else if (TAG_CARRINHO_LIST.equals(carrinhoTag.getLsit())) {
+					carrinhoAdapter.getList().remove(carrinhoTag.getFilmes());
+					carrinhoAdapter.notifyDataSetChanged();
+				}
 			}
 			break;
 		}
 		return true;
 	}
-
 }
