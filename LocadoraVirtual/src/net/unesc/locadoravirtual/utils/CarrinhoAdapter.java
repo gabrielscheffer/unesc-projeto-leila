@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -18,11 +19,14 @@ public class CarrinhoAdapter extends BaseAdapter {
 	private Context context;
 	private List<Filmes> filmes;
 	private static DecimalFormat format;
+	private OnTouchListener onTouchListener;
 
-	public CarrinhoAdapter(Context context, List<Filmes> filmes) {
+	public CarrinhoAdapter(Context context, List<Filmes> filmes,
+			OnTouchListener onTouchListener) {
 		this.context = context;
 		this.setFilmes(filmes);
-		format = new DecimalFormat("R$ #,##0,00");
+		this.onTouchListener = onTouchListener;
+		format = new DecimalFormat("R$ #,##0.00");
 	}
 
 	@Override
@@ -54,6 +58,8 @@ public class CarrinhoAdapter extends BaseAdapter {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			convertView = inflater.inflate(R.layout.carrinho_adapter, parent,
 					false);
+			convertView.setTag(item);
+			convertView.setOnTouchListener(onTouchListener);
 			holder = new ViewHolder();
 			holder.titulo = (TextView) convertView
 					.findViewById(R.id.carrinho_tv_nome);
