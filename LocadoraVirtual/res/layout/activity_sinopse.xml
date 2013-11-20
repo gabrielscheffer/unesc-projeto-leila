@@ -48,12 +48,17 @@
                 android:paddingBottom="10dp"
                 android:text="SINOPSE" />
 
-            <TextView
-                android:id="@+id/tv_sinopse"
-                android:layout_width="fill_parent"
+            <ScrollView
+                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="67"
+                >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_sinopse"
                 android:text="Texto de sinopse do Filme" />
+            </ScrollView>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -62,26 +67,26 @@
                 android:weightSum="3" >
 
                 <Button
-                    android:id="@+id/btn1"
+                    android:id="@+id/btn_trailer"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:text="Trailer" />
 
                 <Button
-                    android:id="@+id/btn2"
+                    android:id="@+id/btn_imagens"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:text="Imagens" />
 
-                <TextView
-                    android:id="@+id/tv_preco"
+                <Button
+                    android:id="@+id/btn_preco"
                     android:layout_width="0dp"
                     android:gravity="center"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:text="Preço R$ 0,00" />
+                    android:text="R$ 0,00" />
 
             </LinearLayout>
 
