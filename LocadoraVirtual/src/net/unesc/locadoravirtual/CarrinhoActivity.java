@@ -43,12 +43,21 @@ public class CarrinhoActivity extends MyActionBarActivity implements
 			initialX = view.getLeft();
 			_xDelta = X - initialX;
 			break;
-		case MotionEvent.ACTION_UP:
-			view.setLeft(initialX);
+		case MotionEvent.ACTION_CANCEL:
+		case MotionEvent.ACTION_UP: {
+			CarrinhoTag carrinhoTag = (CarrinhoTag) view.getTag();
+			if (TAG_CARRINHO_LIST.equals(carrinhoTag.getLsit())) {
+				carrinhoAdapter.notifyDataSetInvalidated();
+			} else if (TAG_LISTA_DESEJOS.equals(carrinhoTag.getLsit())) {
+				listaDesejosAdapter.notifyDataSetInvalidated();
+			}
+		}
 			break;
 		case MotionEvent.ACTION_MOVE:
-			view.setLeft(X - _xDelta);
-			if (initialX + (X - _xDelta) < -300) {
+			if (initialX + (X - _xDelta) < -50 || initialX + (X - _xDelta) > 50) {
+				view.setLeft(X - _xDelta);
+			}
+			if (initialX + (X - _xDelta) < -200) {
 				// esquerda
 				CarrinhoTag carrinhoTag = (CarrinhoTag) view.getTag();
 				if (TAG_LISTA_DESEJOS.equals(carrinhoTag.getLsit())) {
@@ -62,7 +71,7 @@ public class CarrinhoActivity extends MyActionBarActivity implements
 					listaDesejosAdapter.notifyDataSetChanged();
 				}
 			}
-			if (initialX + (X - _xDelta) > 300) {
+			if (initialX + (X - _xDelta) > 200) {
 				// Direita
 				CarrinhoTag carrinhoTag = (CarrinhoTag) view.getTag();
 				if (TAG_LISTA_DESEJOS.equals(carrinhoTag.getLsit())) {
